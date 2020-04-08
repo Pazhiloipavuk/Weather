@@ -1,21 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".TodayFragment">
+    tools:context=".ui.today.TodayFragment">
+
+    <ImageView
+        android:id="@+id/imgWeather"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ic_sunny_weather"
+        android:layout_marginTop="80dp"/>
 
     <TextView
-        android:id="@+id/text_test_today"
+        android:id="@+id/txtCityAndCountry"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textSize="20sp"
-        android:gravity="center"/>
+        android:layout_height="20sp"
+        android:gravity="center"
+        android:layout_below="@id/imgWeather"
+        android:layout_marginTop="24dp"
+        android:text="London, UK"/>
+    
+    <LinearLayout
+        android:id="@+id/lnrTemperatureAndStatus"
+        android:layout_width="match_parent"
+        android:layout_height="20sp"
+        android:orientation="horizontal"
+        android:layout_below="@id/txtCityAndCountry"
+        android:layout_marginTop="24dp"
+        android:gravity="center">
+        
+        <TextView
+            android:id="@+id/txtTemperature"
+            android:layout_width="40sp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="22 C"/>
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/txtSeparator"
+            android:layout_width="20sp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="|"/>
+
+        <TextView
+            android:id="@+id/txtStatus"
+            android:layout_width="40sp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Sunny"/>
+        
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lnrHumidityAndPrecipitationAndPressure"
+        android:layout_width="match_parent"
+        android:layout_height="20sp"
+        android:orientation="horizontal"
+        android:layout_below="@id/lnrTemperatureAndStatus"
+        android:layout_marginTop="24dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/txtHumidity"
+            android:layout_width="40sp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="57%"/>
+
+        <TextView
+            android:id="@+id/txtPrecipitation"
+            android:layout_width="20sp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="1.0 mm"/>
+
+        <TextView
+            android:id="@+id/txtPressure"
+            android:layout_width="40sp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="1019 hPa"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lnrWindSpeedAndDirection"
+        android:layout_width="match_parent"
+        android:layout_height="20sp"
+        android:orientation="horizontal"
+        android:layout_below="@id/lnrHumidityAndPrecipitationAndPressure"
+        android:layout_marginTop="24dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/txtWindSpeed"
+            android:layout_width="40sp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="20 km/h"/>
+
+        <TextView
+            android:id="@+id/txtDirection"
+            android:layout_width="20sp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="SE"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnShare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Share"
+        android:layout_below="@id/lnrWindSpeedAndDirection"
+        android:layout_marginTop="100sp"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

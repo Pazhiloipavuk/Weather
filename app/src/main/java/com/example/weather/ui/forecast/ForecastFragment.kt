@@ -1,4 +1,4 @@
-package com.example.weather
+package com.example.weather.ui.forecast
 
 import android.graphics.Typeface
 import android.os.Bundle
@@ -11,9 +11,9 @@ import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.weather.R
 
-
-class TodayFragment : Fragment() {
+class ForecastFragment : Fragment() {
 
     private lateinit var textView: TextView
     override fun onCreateView(
@@ -22,15 +22,15 @@ class TodayFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_today, container, false)
+        return inflater.inflate(R.layout.fragment_forecast, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        textView = view.findViewById(R.id.text_test_today)
-        textView.text  = "Today"
+        textView = view.findViewById(R.id.text_test_forecast)
+        textView.text  = "Forecast"
 
-        setTitle("Today")
+        setTitle("Forecast")
     }
 
     private fun setTitle(title: String) {

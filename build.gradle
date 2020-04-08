@@ -27,3 +27,17 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext {
+    recyclerViewVersion = '1.1.0-alpha06'
+
+    rxjava2Version = '2.2.8'
+
+    rxandroidVersion = '2.1.1'
+
+    rxViewBindingVersion = "3.0.0-alpha2"
+
+    retrofitVersion = '2.6.0'
+
+    kodeinVersion = "6.1.0"
+}
