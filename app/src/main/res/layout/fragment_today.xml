@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/fragment_today"
     tools:context=".ui.today.TodayFragment">
 
     <ImageView
@@ -13,7 +14,7 @@
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
         android:src="@drawable/ic_sunny_weather"
-        android:layout_marginTop="80dp"/>
+        android:layout_marginTop="60dp"/>
 
     <TextView
         android:id="@+id/txtCityAndCountry"
