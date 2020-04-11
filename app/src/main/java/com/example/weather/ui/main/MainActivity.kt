@@ -32,8 +32,6 @@ class MainActivity : AppCompatActivity(), MainActivityView {
 
     private var presenter = MainActivityPresenter(this)
 
-    private var weather = Weather()
-
     val currentWeather: MutableLiveData<Weather> by lazy {
         MutableLiveData<Weather>()
     }
@@ -46,14 +44,6 @@ class MainActivity : AppCompatActivity(), MainActivityView {
         MutableLiveData<List<Weather>>()
     }
 
-    private var txtCityAndCountryText = ""
-    private var txtTemperatureText = ""
-    private var txtStatusText = ""
-    private var txtHumidityText = ""
-    private var txtPressureText = ""
-    private var txtWindSpeedText = ""
-    private var txtDirectionText = ""
-
     companion object {
         const val PERMISSION_ID = 42
     }
@@ -65,8 +55,6 @@ class MainActivity : AppCompatActivity(), MainActivityView {
         val navView: BottomNavigationView = findViewById(R.id.navigationView)
 
         val navController = findNavController(R.id.nav_host_fragment)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(setOf(
             R.id.navigation_today,
             R.id.navigation_forecast
@@ -75,7 +63,6 @@ class MainActivity : AppCompatActivity(), MainActivityView {
         navView.setupWithNavController(navController)
 
         getCurrentWeatherAndWeatherForecastFromDB()
-        presenter.initMap()
         getCurrentLocation()
     }
 
@@ -100,8 +87,6 @@ class MainActivity : AppCompatActivity(), MainActivityView {
         val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
         val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
 
-        println("------------------------$isConnected")
-
         if (!isConnected) showError("Couldn't connect to network")
         else {
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -112,8 +97,6 @@ class MainActivity : AppCompatActivity(), MainActivityView {
                 fusedLocationClient?.lastLocation?.
                 addOnSuccessListener(this){location : Location? ->
                     if(location != null) {
-                        println("${location.latitude}")
-                        println("${location.longitude}")
                         presenter.getCurrentWeather(location.latitude.toString(), location.longitude.toString())
                         presenter.getWeatherForecast(location.latitude.toString(), location.longitude.toString())
                     } else {
@@ -125,11 +108,7 @@ class MainActivity : AppCompatActivity(), MainActivityView {
     }
 
     override fun showCurrentWeather(weather: Weather) {
-
         currentWeather.value = weather
-        //currentWeather.value = Weather()
-        //setCurrentWeather()
-
     }
 
     override fun setWeatherForecast(city: String, weather: List<Weather>) {
@@ -137,22 +116,8 @@ class MainActivity : AppCompatActivity(), MainActivityView {
         weatherForecast.value = weather
     }
 
-    fun setCurrentWeather(){
-        txtCityAndCountry.text = "${weather.city}, ${weather.country}"
-        println(txtCityAndCountryText)
-        txtTemperature.text = "${weather.temperature}"
-        txtStatus.text = "${weather.main}"
-        txtHumidity.text = "${weather.humidity}"
-        txtPressure.text = "${weather.pressure}"
-        txtWindSpeed.text = "${weather.speed}"
-        txtDirection.text = "${weather.degrees}"
-    }
-
-    fun getWeather() = weather
-
     override fun showError(error: String?){
         Toast.makeText(this, error, Toast.LENGTH_LONG).show()
-        println("$error-----------------------------------")
     }
 
     private fun checkPermission(vararg perm:String) : Boolean {

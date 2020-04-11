@@ -8,7 +8,7 @@ import java.util.logging.XMLFormatter
 class ApiRest {
     companion object {
 
-        private var BASE_URL = "http://api.openweathermap.org/"
+        private var BASE_URL = "https://api.openweathermap.org/"
 
         fun getApi(): Retrofit {
 

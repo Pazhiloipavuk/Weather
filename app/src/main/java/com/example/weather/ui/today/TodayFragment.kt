@@ -26,35 +26,6 @@ class TodayFragment : Fragment() {
 
     private lateinit var weather: Weather
 
-    private var txtCityAndCountryText = ""
-    private var txtTemperatureText = ""
-    private var txtStatusText = ""
-    private var txtHumidityText = ""
-    private var txtPressureText = ""
-    private var txtWindSpeedText = ""
-    private var txtDirectionText = ""
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        println("CREATE")
-
-        /*val nameObserver = Observer<Weather> { weather ->
-            // Update the UI, in this case, a TextView.
-            txtCityAndCountry.text = "${weather.city}, ${weather.country}"
-            println(txtCityAndCountryText)
-            txtTemperature.text = "${weather.temperature}"
-            txtStatus.text = "${weather.main}"
-            txtHumidity.text = "${weather.humidity}"
-            txtPressure.text = "${weather.pressure}"
-            txtWindSpeed.text = "${weather.speed}"
-            txtDirection.text = "${weather.degrees}"
-        }*/
-
-        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
-        //(activity as MainActivity).currentWeather.observe(this, nameObserver)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -71,13 +42,11 @@ class TodayFragment : Fragment() {
             txtPressure.text = "${weather.pressure} hPa"
             txtWindSpeed.text = "${weather.speed} km/h"
             txtDirection.text = "${weather.degrees}"
-            println("${R.drawable.ic_cloud} ||||| ${weather.image}")
             imgWeather.setImageResource(weather.image)
         })
 
         var btnShare = listItems.findViewById<View>(R.id.btnShare) as Button
         initListener(btnShare)
-        // Inflate the layout for this fragment
         return listItems
     }
 
@@ -98,32 +67,7 @@ class TodayFragment : Fragment() {
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        //outState.putString("temperature", txtTemperature.text.toString())
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        //textView = view.findViewById(R.id.text_test_today)
-        //textView.text  = "Today"
-        //this.view = vie
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-        println("RESUME")
-
-        //var weather = (activity as MainActivity).getWeather()
-
-    }
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-    }
-
     private fun setTitle(title: String) {
-        println("SETTITLE")
         (activity as AppCompatActivity?)!!.supportActionBar!!.setHomeButtonEnabled(true)
         (activity as AppCompatActivity?)!!.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         val textView = TextView(activity)
@@ -138,22 +82,5 @@ class TodayFragment : Fragment() {
         textView.setTextColor(resources.getColor(R.color.colorWhite))
         (activity as AppCompatActivity?)!!.supportActionBar?.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
         (activity as AppCompatActivity?)!!.supportActionBar!!.customView = textView
-    }
-
-    fun printHello(){
-        println("JOPA")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        println("PAUSE")
-
-        txtCityAndCountryText = view!!.txtCityAndCountry.text.toString()
-        txtTemperatureText = view!!.txtTemperature.text.toString()
-        txtStatusText = view!!.txtStatus.text.toString()
-        txtHumidityText = view!!.txtHumidity.text.toString()
-        txtPressureText = view!!.txtPressure.text.toString()
-        txtWindSpeedText = view!!.txtWindSpeed.text.toString()
-        txtDirectionText = view!!.txtDirection.text.toString()
     }
 }

@@ -3,6 +3,7 @@ package com.example.weather.ui.main
 import com.example.weather.MyApp
 import com.example.weather.R
 import com.example.weather.internet.WeatherRepository
+import com.example.weather.model.CurrentWeatherResponse
 import com.example.weather.model.Weather
 import com.example.weather.storage.Storage
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -30,15 +31,14 @@ class MainActivityPresenter(private val mainActivity: MainActivityView) {
 
     private var currentTime = 0
 
-    fun initMap() {
+    init {
         images["Clear"] = R.drawable.ic_clear_sky_day
         images["Rain"] = R.drawable.ic_rain
         images["Mist"] = R.drawable.ic_mist
         images["Snow"] = R.drawable.ic_snow
         images["Clouds"] = R.drawable.ic_cloud
         images["Thunderstorm"] = R.drawable.ic_thunderstorm
-        val sdf = SimpleDateFormat("HH")
-        currentTime = sdf.format(Date()).toInt()
+        currentTime = SimpleDateFormat("HH").format(Date()).toInt()
     }
 
     fun getCurrentWeather(lat: String, lon: String) {
@@ -47,7 +47,6 @@ class MainActivityPresenter(private val mainActivity: MainActivityView) {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { result -> var weather = Weather()
-                    println(result.main.temp)
                     weather.temperature = result.main.temp
                     weather.pressure = result.main.pressure
                     weather.humidity = result.main.humidity
@@ -56,10 +55,9 @@ class MainActivityPresenter(private val mainActivity: MainActivityView) {
                     weather.main = result.weather[0].main
                     weather.country = result.sys.country
                     weather.city = result.name
-                    println("before")
                     if (weather.main == "Clear" && (currentTime > 19 || currentTime < 8)) weather.image = R.drawable.ic_clear_sky_night
-                    else weather.image = images[weather.main]!!
-                    println("after")
+                    else if (images[weather.main] != null) weather.image = images[weather.main]!!
+                    else weather.image = R.drawable.ic_unknown
                     mainActivity.showCurrentWeather(weather)
                     storage.deleteAll()
                     storage.addWeather(weather)},
@@ -82,7 +80,8 @@ class MainActivityPresenter(private val mainActivity: MainActivityView) {
                                 weather.time = dataAndTime[1]
                                 var hours = dataAndTime[1].split(":")[0].toInt()
                                 if (weather.main == "Clear" && (hours > 19 || hours < 8)) weather.image = R.drawable.ic_clear_sky_night
-                                else weather.image = images[weather.main]!!
+                                else if (images[weather.main] != null) weather.image = images[weather.main]!!
+                                else weather.image = R.drawable.ic_unknown
                                 if (dataAndTime[0] != data) {
                                     data = dataAndTime[0]
                                     var weatherIsHeader = Weather()

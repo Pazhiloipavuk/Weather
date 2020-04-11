@@ -5,29 +5,49 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weather.R
 import com.example.weather.model.Weather
-import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
 
-class Adapter(items: List<Weather>) : RecyclerView.Adapter<ViewHolder>() {
+class Adapter(items: List<Weather>) : RecyclerView.Adapter<BaseViewHolder>() {
 
     var items = ArrayList(items)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            LayoutInflater.from(parent.context)
-                .inflate(
-                    R.layout.recycler_view_item,
-                    parent,
-                    false
+    companion object {
+        private const val HEADER_VIEW_TYPE = 0
+        private const val WEATHER_FORECAST_VIEW_TYPE = 1
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
+        when (viewType) {
+            HEADER_VIEW_TYPE -> {
+                return HeaderViewHolder(
+                    LayoutInflater.from(parent.context).inflate(
+                        R.layout.recycler_view_item_header,
+                        parent,
+                        false
+                    )
                 )
-        )
+            }
+            else -> {
+                return WeatherForecastViewHolder(
+                    LayoutInflater.from(parent.context).inflate(
+                        R.layout.recycler_view_item_weather_forecast,
+                        parent,
+                        false
+                    )
+                )
+            }
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (items[position].isHeader) HEADER_VIEW_TYPE
+        else WEATHER_FORECAST_VIEW_TYPE
     }
 
     override fun getItemCount(): Int {
         return items.size
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         holder.bind(items[position])
     }
 
