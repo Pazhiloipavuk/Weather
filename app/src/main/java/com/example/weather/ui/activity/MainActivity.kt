@@ -53,6 +53,20 @@ class MainActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
+
+        initBottomNavigation()
+        initSwipeRefreshListener()
+        getCurrentWeatherAndWeatherForecastFromDB()
+        getCurrentLocation()
+    }
+
+    private fun initSwipeRefreshListener() {
+        swipeRefreshLayout.setOnRefreshListener {
+            getCurrentLocation()
+        }
+    }
+
+    private fun initBottomNavigation() {
         val navView: BottomNavigationView = findViewById(R.id.navigationView)
 
         val navController = findNavController(R.id.nav_host_fragment)
@@ -62,16 +76,6 @@ class MainActivity : AppCompatActivity(),
         ))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
-        initListener()
-        getCurrentWeatherAndWeatherForecastFromDB()
-        getCurrentLocation()
-    }
-
-    private fun initListener() {
-        swipeRefreshLayout.setOnRefreshListener {
-            getCurrentLocation()
-        }
     }
 
     private fun getCurrentWeatherAndWeatherForecastFromDB() {
@@ -109,7 +113,7 @@ class MainActivity : AppCompatActivity(),
                         presenter.getCurrentWeather(location.latitude.toString(), location.longitude.toString())
                         presenter.getWeatherForecast(location.latitude.toString(), location.longitude.toString())
                     } else {
-                        println("Couldn't get location")
+                        showError("Couldn't get location")
                     }
                 }
             }
