@@ -1,4 +1,4 @@
-package com.example.weather.ui.forecast.settingsRecyclerView
+package com.example.weather.ui.fragment.forecast.settingsRecyclerView
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

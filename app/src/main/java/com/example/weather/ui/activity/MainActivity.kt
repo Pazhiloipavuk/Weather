@@ -1,4 +1,4 @@
-package com.example.weather.ui.main
+package com.example.weather.ui.activity
 
 import android.Manifest
 import android.app.AlertDialog
@@ -19,18 +19,19 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.weather.R
 import com.example.weather.model.Weather
-import com.example.weather.ui.today.TodayFragment
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.fragment_today.*
+import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity(), MainActivityView {
+class MainActivity : AppCompatActivity(),
+    MainActivityView {
 
     private var fusedLocationClient: FusedLocationProviderClient? = null
 
-    private var presenter = MainActivityPresenter(this)
+    private var presenter =
+        MainActivityPresenter(this)
 
     val currentWeather: MutableLiveData<Weather> by lazy {
         MutableLiveData<Weather>()
@@ -62,19 +63,26 @@ class MainActivity : AppCompatActivity(), MainActivityView {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+        initListener()
         getCurrentWeatherAndWeatherForecastFromDB()
         getCurrentLocation()
     }
 
+    private fun initListener() {
+        swipeRefreshLayout.setOnRefreshListener {
+            getCurrentLocation()
+        }
+    }
+
     private fun getCurrentWeatherAndWeatherForecastFromDB() {
-        var weather= presenter.getCurrentWeatherFromDB()
+        val weather= presenter.getCurrentWeatherFromDB()
         if (weather != null) {
             currentWeather.value = weather
-            currentCity.value = weather!!.city
+            currentCity.value = weather.city
         }
         else return
 
-        var weatherForecastFromDB: List<Weather> = presenter.getWeatherForecastFromDB()
+        val weatherForecastFromDB: List<Weather> = presenter.getWeatherForecastFromDB()
 
         if (weatherForecastFromDB.isNotEmpty()) {
             weatherForecast.value = weatherForecastFromDB
@@ -83,6 +91,7 @@ class MainActivity : AppCompatActivity(), MainActivityView {
     }
 
     private fun getCurrentLocation() {
+        swipeRefreshLayout.isRefreshing = true
         val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
         val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
@@ -105,6 +114,7 @@ class MainActivity : AppCompatActivity(), MainActivityView {
                 }
             }
         }
+        swipeRefreshLayout.isRefreshing = false
     }
 
     override fun showCurrentWeather(weather: Weather) {

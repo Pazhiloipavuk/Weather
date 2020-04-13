@@ -1,9 +1,8 @@
-package com.example.weather.ui.main
+package com.example.weather.ui.activity
 
 import com.example.weather.MyApp
 import com.example.weather.R
 import com.example.weather.internet.WeatherRepository
-import com.example.weather.model.CurrentWeatherResponse
 import com.example.weather.model.Weather
 import com.example.weather.storage.Storage
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -16,8 +15,8 @@ import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 class MainActivityPresenter(private val mainActivity: MainActivityView) {
+
     private var disposable: Disposable? = null
-    private var subscribe: Disposable? = null
 
     private val weatherService: WeatherRepository by MyApp.kodein.instance()
 
@@ -46,7 +45,7 @@ class MainActivityPresenter(private val mainActivity: MainActivityView) {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                { result -> var weather = Weather()
+                { result -> val weather = Weather()
                     weather.temperature = result.main.temp
                     weather.pressure = result.main.pressure
                     weather.humidity = result.main.humidity
@@ -72,19 +71,19 @@ class MainActivityPresenter(private val mainActivity: MainActivityView) {
             .subscribe(
                 { result -> println(result.list.size)
                             for (weatherInformation in result.list) {
-                                var weather = Weather()
+                                val weather = Weather()
                                 weather.temperature = weatherInformation.main.temp
                                 weather.main = weatherInformation.weather[0].main
-                                var dataAndTime = weatherInformation.dt_txt.split(" ")
+                                val dataAndTime = weatherInformation.dt_txt.split(" ")
                                 weather.data = dataAndTime[0]
                                 weather.time = dataAndTime[1]
-                                var hours = dataAndTime[1].split(":")[0].toInt()
+                                val hours = dataAndTime[1].split(":")[0].toInt()
                                 if (weather.main == "Clear" && (hours > 19 || hours < 8)) weather.image = R.drawable.ic_clear_sky_night
                                 else if (images[weather.main] != null) weather.image = images[weather.main]!!
                                 else weather.image = R.drawable.ic_unknown
                                 if (dataAndTime[0] != data) {
                                     data = dataAndTime[0]
-                                    var weatherIsHeader = Weather()
+                                    val weatherIsHeader = Weather()
                                     weatherIsHeader.isHeader = true
                                     weatherIsHeader.data = data
                                     weatherForecast.add(weatherIsHeader)
@@ -102,8 +101,4 @@ class MainActivityPresenter(private val mainActivity: MainActivityView) {
 
     fun getWeatherForecastFromDB() = storage.getWeatherForecast()
 
-    fun onPause() {
-        disposable?.dispose()
-        subscribe?.dispose()
-    }
 }

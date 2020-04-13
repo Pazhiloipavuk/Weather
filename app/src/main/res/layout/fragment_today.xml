@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/fragment_today"
-    tools:context=".ui.today.TodayFragment">
+    tools:context=".ui.fragment.today.TodayFragment">
 
     <ImageView
         android:id="@+id/imgWeather"
@@ -18,10 +17,12 @@
     <TextView
         android:id="@+id/txtCityAndCountry"
         android:layout_width="match_parent"
-        android:layout_height="20sp"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
         android:gravity="center"
         android:layout_below="@id/imgWeather"
-        android:layout_marginTop="24dp"/>
+        android:layout_marginTop="24dp"
+        android:textColor="@color/colorBlack"/>
     
     <LinearLayout
         android:id="@+id/lnrTemperatureAndStatus"
@@ -34,47 +35,114 @@
         
         <TextView
             android:id="@+id/txtTemperature"
-            android:layout_width="40sp"
+            android:layout_width="0dp"
+            android:layout_weight="4"
+            android:textSize="16sp"
             android:layout_height="match_parent"
-            android:gravity="center"/>
+            android:gravity="end"
+            android:textColor="@color/colorBlack"/>
 
         <TextView
             android:id="@+id/txtSeparator"
-            android:layout_width="20sp"
+            android:layout_width="0dp"
+            android:textSize="16sp"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:gravity="center"
-            android:text="|"/>
+            android:text="@string/separator"
+            android:textColor="@color/colorBlack"/>
 
         <TextView
             android:id="@+id/txtStatus"
-            android:layout_width="40sp"
+            android:layout_width="0dp"
+            android:layout_weight="4"
+            android:textSize="16sp"
             android:layout_height="match_parent"
-            android:gravity="center"/>
+            android:gravity="start"
+            android:textColor="@color/colorBlack"/>
         
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/lnrHumidityAndPrecipitationAndPressure"
+        android:id="@+id/lnrHumidityAndPressureImages"
         android:layout_width="match_parent"
         android:layout_height="20sp"
         android:orientation="horizontal"
         android:layout_below="@id/lnrTemperatureAndStatus"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="50dp"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/imgHumidity"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:src="@drawable/ic_droplet"/>
+
+        <ImageView
+            android:id="@+id/imgPressure"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:src="@drawable/ic_pressure"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lnrHumidityAndPressure"
+        android:layout_width="match_parent"
+        android:layout_height="20sp"
+        android:orientation="horizontal"
+        android:layout_below="@id/lnrHumidityAndPressureImages"
+        android:layout_marginTop="10dp"
         android:gravity="center">
 
         <TextView
             android:id="@+id/txtHumidity"
             android:layout_width="40sp"
+            android:textSize="14sp"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:textColor="@color/colorBlack"/>
 
         <TextView
             android:id="@+id/txtPressure"
             android:layout_width="40sp"
+            android:textSize="14sp"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:textColor="@color/colorBlack"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lnrWindSpeedAndDirectionImage"
+        android:layout_width="match_parent"
+        android:layout_height="20sp"
+        android:orientation="horizontal"
+        android:layout_below="@id/lnrHumidityAndPressure"
+        android:layout_marginTop="24dp"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/imgSpeed"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:src="@drawable/ic_wind"/>
+
+        <ImageView
+            android:id="@+id/imgDirection"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:src="@drawable/ic_compass"/>
 
     </LinearLayout>
 
@@ -83,23 +151,27 @@
         android:layout_width="match_parent"
         android:layout_height="20sp"
         android:orientation="horizontal"
-        android:layout_below="@id/lnrHumidityAndPrecipitationAndPressure"
-        android:layout_marginTop="24dp"
+        android:layout_below="@id/lnrWindSpeedAndDirectionImage"
+        android:layout_marginTop="10dp"
         android:gravity="center">
 
         <TextView
             android:id="@+id/txtWindSpeed"
             android:layout_width="40sp"
+            android:textSize="14sp"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:textColor="@color/colorBlack"/>
 
         <TextView
             android:id="@+id/txtDirection"
             android:layout_width="20sp"
+            android:textSize="14sp"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:textColor="@color/colorBlack"/>
 
     </LinearLayout>
 
@@ -107,9 +179,10 @@
         android:id="@+id/btnShare"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Share"
+        android:text="@string/share"
+        android:textSize="14sp"
         android:layout_below="@id/lnrWindSpeedAndDirection"
-        android:layout_marginTop="100sp"
+        android:layout_marginTop="100dp"
         android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

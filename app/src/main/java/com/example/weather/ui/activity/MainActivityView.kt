@@ -1,4 +1,4 @@
-package com.example.weather.ui.main
+package com.example.weather.ui.activity
 
 import com.example.weather.model.Weather
 
