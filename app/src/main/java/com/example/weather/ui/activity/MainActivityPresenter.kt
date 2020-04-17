@@ -69,7 +69,7 @@ class MainActivityPresenter(private val mainActivity: MainActivityView) {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                { result -> println(result.list.size)
+                { result -> weatherForecast.clear()
                             for (weatherInformation in result.list) {
                                 val weather = Weather()
                                 weather.temperature = weatherInformation.main.temp

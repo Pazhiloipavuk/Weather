@@ -171,7 +171,8 @@ class MainActivity : AppCompatActivity(),
         grantResults: IntArray
     ) {
         when (requestCode) {
-            PERMISSION_ID -> getCurrentLocation()
+            PERMISSION_ID -> {
+                getCurrentLocation()}
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }

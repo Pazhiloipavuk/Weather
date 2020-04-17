@@ -8,7 +8,7 @@ import com.example.weather.model.Weather
 
 class Adapter(items: List<Weather>) : RecyclerView.Adapter<BaseViewHolder>() {
 
-    var items = ArrayList(items)
+    private var items = ArrayList(items)
 
     companion object {
         private const val HEADER_VIEW_TYPE = 0
@@ -53,6 +53,7 @@ class Adapter(items: List<Weather>) : RecyclerView.Adapter<BaseViewHolder>() {
 
     fun updateListOfItems(list: List<Weather>) {
         items.clear()
+        notifyItemRangeRemoved(0, itemCount)
         items.addAll(list)
         notifyDataSetChanged()
     }
